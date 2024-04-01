@@ -11,16 +11,18 @@ export default async function Home() {
   const session = await getServerAuthSession();
 
   return (
-    <main className="container bg-background">
-      <ThemeSwitch />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
-      <DoughnutChart />
+    <main className="container ">
+      <div className=" mx-auto max-w-screen-lg border-l border-r border-border">
+        <ThemeSwitch />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+        <DoughnutChart />
+      </div>
     </main>
   );
 }
