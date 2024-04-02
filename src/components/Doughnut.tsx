@@ -9,7 +9,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutChart = () => {
   const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+    showLabels: false,
     datasets: [
       {
         label: "# of Votes",
@@ -35,9 +35,18 @@ const DoughnutChart = () => {
     ],
   };
 
+  const options = {
+    plugins: {
+      legend: {
+        display: false, // Set to false to hide the legend
+      },
+    },
+    cutout: "50%",
+  };
+
   return (
-    <div className=" w-1/2">
-      <Doughnut data={data} />
+    <div className=" w-full p-2 lg:w-3/5">
+      <Doughnut data={data} options={options} />
     </div>
   );
 };
