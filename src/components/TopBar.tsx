@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { ThemeSwitch } from "./ThemeSwitch";
+import LogOutButton from "./LogOutButton";
 
 const TopBar = () => {
   return (
@@ -13,8 +15,8 @@ const TopBar = () => {
             <h2 className=" relative -top-1 ">Tracker</h2>
           </div>
         </Link>
-        <ul className=" flex gap-4 text-xl">
-          <li>
+        <ul className=" flex items-center justify-center gap-4 text-xl">
+          {/* <li>
             <Link
               href={"/categories"}
               className=" inline-block rounded-sm border-2 border-transparent p-2 transition-all duration-200 hover:border-border"
@@ -29,14 +31,12 @@ const TopBar = () => {
             >
               Reports
             </Link>
+          </li> */}
+          <li>
+            <ThemeSwitch />
           </li>
           <li>
-            <Link
-              href={"/reports"}
-              className=" inline-block rounded-sm border-2 border-transparent p-2 transition-all duration-200 hover:border-border"
-            >
-              Signout
-            </Link>
+            <LogOutButton />
           </li>
         </ul>
       </div>

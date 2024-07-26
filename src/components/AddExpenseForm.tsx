@@ -34,6 +34,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 const languages = [
   { label: "English", value: "en" },
@@ -53,7 +55,19 @@ const formSchema = z.object({
   category: z.string(),
 });
 
-const AddExpenseForm = () => {
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: Date;
+  userId: string;
+};
+
+type Props = {
+  categories: Category[];
+};
+
+const AddExpenseForm = ({ categories }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,7 +76,7 @@ const AddExpenseForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -71,14 +85,14 @@ const AddExpenseForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="my-4 flex items-start justify-around "
+        className="my-4 flex flex-1 flex-col items-start justify-around gap-4 "
       >
         <FormField
           control={form.control}
           name="category"
           render={({ field }) => (
-            <FormItem className=" min-w-44  flex-1 grow-0">
-              <div className=" flex flex-col justify-between gap-3 pt-1">
+            <FormItem className=" w-full flex-1 grow-0">
+              <div className=" flex flex-col justify-between  gap-3 pt-1">
                 <FormLabel>Category</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -91,38 +105,58 @@ const AddExpenseForm = () => {
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        {field.value
-                          ? languages.find(
-                              (language) => language.value === field.value,
-                            )?.label
-                          : "Select category"}
+                        {field.value ? (
+                          <div className=" flex items-center gap-2">
+                            <div
+                              className="  size-4 rounded-full "
+                              style={{
+                                backgroundColor: categories.find(
+                                  (category) => category.id === field.value,
+                                )?.color,
+                              }}
+                            ></div>
+                            <p>
+                              {
+                                categories.find(
+                                  (category) => category.id === field.value,
+                                )?.name
+                              }
+                            </p>
+                          </div>
+                        ) : (
+                          "Select category"
+                        )}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
+                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
                     <Command>
-                      <CommandInput placeholder="Search language..." />
-                      <CommandEmpty>No language found.</CommandEmpty>
+                      <CommandInput placeholder="Search category..." />
+                      <CommandEmpty>No category found.</CommandEmpty>
                       <CommandList>
                         <CommandGroup>
-                          {languages.map((language) => (
+                          {categories.map((category) => (
                             <CommandItem
-                              value={language.label}
-                              key={language.value}
+                              value={category.id}
+                              key={category.id}
                               onSelect={() => {
-                                form.setValue("category", language.value);
+                                form.setValue("category", category.id);
                               }}
                             >
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  language.value === field.value
+                                  category.id === field.value
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
                               />
-                              {language.label}
+                              <div
+                                className=" mr-2 size-4 rounded-full "
+                                style={{ background: category.color }}
+                              ></div>
+                              {category.name}
                             </CommandItem>
                           ))}
                         </CommandGroup>
@@ -142,7 +176,7 @@ const AddExpenseForm = () => {
           control={form.control}
           name="description"
           render={({ field }) => (
-            <FormItem className=" min-w-44  flex-1 grow-0">
+            <FormItem className=" w-full  flex-1 grow-0">
               <FormLabel>Description</FormLabel>
               <FormControl>
                 <Input placeholder="description" {...field} />
@@ -155,7 +189,7 @@ const AddExpenseForm = () => {
           control={form.control}
           name="amount"
           render={({ field }) => (
-            <FormItem className=" min-w-44 flex-1 grow-0">
+            <FormItem className=" w-full flex-1 grow-0">
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input placeholder="0" {...field} type="number" />
@@ -164,7 +198,7 @@ const AddExpenseForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className=" self-start">
+        <Button type="submit" className="">
           Submit
         </Button>
       </form>

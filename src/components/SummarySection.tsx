@@ -11,7 +11,7 @@ const SummarySection = () => {
       </div>
       <div className=" flex h-[80vh] flex-col items-center gap-4 border-b border-border pb-4 lg:h-[40vh] lg:flex-row">
         <DoughnutChart />
-        <div className="  h-full flex-grow overflow-y-scroll border-t border-border lg:border-l lg:px-4">
+        <div className="  no-scrollbar h-full flex-grow overflow-y-scroll border-t border-border lg:border-l lg:px-4">
           <WeeklyExpenses />
         </div>
       </div>

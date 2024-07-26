@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { ThemeProvider } from "@/context/ThemeContext";
 import TopBar from "@/components/TopBar";
+import NextAuthSessionProvider from "@/context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,13 +28,14 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} h-screen bg-background`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
           disableTransitionOnChange
         >
           <TRPCReactProvider>
-            <TopBar />
-            {children}
+            <NextAuthSessionProvider>
+              <TopBar />
+              {children}
+            </NextAuthSessionProvider>
           </TRPCReactProvider>
         </ThemeProvider>
       </body>
