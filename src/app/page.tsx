@@ -3,9 +3,14 @@ import { api } from "@/trpc/server";
 import AddExpenseForm from "@/components/AddExpenseForm";
 import SummarySection from "@/components/SummarySection";
 import AddCategoryForm from "@/components/AddCategoryForm";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerAuthSession();
+
+  if (!session || !session.user) {
+    redirect("/api/auth/signin");
+  }
 
   const categories = await api.category.get();
 
