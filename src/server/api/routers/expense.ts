@@ -30,11 +30,20 @@ export const expenseRouter = createTRPCRouter({
       });
     }),
 
+  delete: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.expense.delete({
+        where: { id: input },
+      });
+    }),
+
   get: protectedProcedure.query(({ ctx }) => {
     // console.log(ctx.session);
     return ctx.db.expense.findMany({
       orderBy: { createdAt: "desc" },
       where: { createdBy: { id: ctx.session.user.id } },
+      include: { category: true },
     });
   }),
 

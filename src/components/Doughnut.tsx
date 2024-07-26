@@ -11,13 +11,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
 const chartConfig = {
   visitors: {
     label: "Visitors",
@@ -59,7 +52,7 @@ type Props = {
 
 const DoughnutChart = ({ chartData }: Props) => {
   return (
-    <div className=" w-full p-2 lg:w-3/5">
+    <div className=" w-full p-2 lg:w-1/2">
       <ChartContainer config={chartConfig} className="mx-auto aspect-square">
         <PieChart>
           <ChartTooltip
@@ -89,6 +82,7 @@ const DoughnutChart = ({ chartData }: Props) => {
                         y={viewBox.cy}
                         className="fill-foreground text-3xl font-bold"
                       >
+                        {"\u20B9"}
                         {chartData.reduce((acc, { total }) => acc + total, 0)}
                       </tspan>
                       <tspan
