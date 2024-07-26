@@ -33,7 +33,7 @@ export default async function Home() {
           </section>
         </div>
 
-        <SummarySection />
+        <SummarySection categories={categories} />
 
         {/* <div className=" grid grid-cols-2 gap-2">
           {keys.map((key) => (

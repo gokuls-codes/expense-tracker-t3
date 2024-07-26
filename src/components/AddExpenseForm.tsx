@@ -51,7 +51,7 @@ const languages = [
 
 const formSchema = z.object({
   description: z.string().min(1),
-  amount: z.number().min(1),
+  amount: z.coerce.number().min(1),
   category: z.string(),
 });
 
@@ -68,6 +68,8 @@ type Props = {
 };
 
 const AddExpenseForm = ({ categories }: Props) => {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,10 +78,19 @@ const AddExpenseForm = ({ categories }: Props) => {
     },
   });
 
+  const createExpense = api.expense.create.useMutation({
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
+    },
+  });
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    createExpense.mutate({
+      description: values.description,
+      amount: values.amount,
+      categoryId: values.category,
+    });
   };
   return (
     <Form {...form}>

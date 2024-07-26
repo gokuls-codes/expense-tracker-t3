@@ -2,18 +2,7 @@
 
 import React from "react";
 
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-
 import { Label, Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import {
   ChartConfig,
@@ -21,8 +10,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-// ChartJS.register(ArcElement, Tooltip, Legend);
 
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -57,13 +44,23 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const DoughnutChart = () => {
+type ChartDataItem = {
+  id: string;
+  name: string;
+  fill: string;
+  createdAt: Date;
+  userId: string;
+  total: number;
+};
+
+type Props = {
+  chartData: ChartDataItem[];
+};
+
+const DoughnutChart = ({ chartData }: Props) => {
   return (
     <div className=" w-full p-2 lg:w-3/5">
-      <ChartContainer
-        config={chartConfig}
-        className="mx-auto aspect-square max-h-[250px]"
-      >
+      <ChartContainer config={chartConfig} className="mx-auto aspect-square">
         <PieChart>
           <ChartTooltip
             cursor={false}
@@ -71,10 +68,11 @@ const DoughnutChart = () => {
           />
           <Pie
             data={chartData}
-            dataKey="visitors"
-            nameKey="browser"
-            innerRadius={60}
-            strokeWidth={5}
+            dataKey="total"
+            nameKey="name"
+            innerRadius={"50%"}
+            strokeWidth={2}
+            stroke="#000"
           >
             <Label
               content={({ viewBox }) => {
@@ -91,14 +89,14 @@ const DoughnutChart = () => {
                         y={viewBox.cy}
                         className="fill-foreground text-3xl font-bold"
                       >
-                        12
+                        {chartData.reduce((acc, { total }) => acc + total, 0)}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
                         y={(viewBox.cy || 0) + 24}
                         className="fill-muted-foreground"
                       >
-                        Visitors
+                        Total Amount
                       </tspan>
                     </text>
                   );

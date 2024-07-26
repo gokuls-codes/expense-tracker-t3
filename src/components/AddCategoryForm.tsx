@@ -25,11 +25,11 @@ const formSchema = z.object({
 });
 
 type Category = {
-  id: String;
-  name: String;
-  color: String;
+  id: string;
+  name: string;
+  color: string;
   createdAt: Date;
-  userId: String;
+  userId: string;
 };
 
 type Props = {
@@ -39,12 +39,6 @@ type Props = {
 const AddCategoryForm = ({ categories }: Props) => {
   const router = useRouter();
 
-  const createCategory = api.category.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-  });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,11 +47,14 @@ const AddCategoryForm = ({ categories }: Props) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const createCategory = api.category.create.useMutation({
+    onSuccess: () => {
+      form.reset();
+      router.refresh();
+    },
+  });
 
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     createCategory.mutate({
       name: values.name,
       color: values.color,
