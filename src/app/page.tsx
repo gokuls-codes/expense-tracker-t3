@@ -16,21 +16,21 @@ export default async function Home() {
 
   return (
     <main className="container ">
-      <div className=" mx-auto max-w-screen-lg border-l border-r border-border">
+      <div className=" mx-auto my-4 max-w-screen-lg border-l border-r border-border">
         {/* <div className="flex items-center space-x-2">
           <Input type="color" className=" w-16 p-0" id="color-picker" />
           <Label htmlFor="color-picker">Pick a color</Label>
         </div> */}
 
-        <div className=" flex gap-4 px-4">
-          <section className=" my-4 flex-1 rounded-lg border  border-border px-4 py-4">
+        <div className=" flex flex-col gap-4 px-4 lg:flex-row">
+          <section className="  flex-1 rounded-lg border  border-border px-4 py-4">
             <h2 className="  text-2xl font-light text-foreground/50">
               Add Expense
             </h2>
             <AddExpenseForm categories={categories} />
           </section>
 
-          <section className=" my-4 flex-1 rounded-lg border  border-border px-4 py-4">
+          <section className="  flex-1 rounded-lg border  border-border px-4 py-4">
             <h2 className="  text-2xl font-light text-foreground/50">
               Create Category
             </h2>

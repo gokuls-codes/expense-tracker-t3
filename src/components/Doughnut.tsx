@@ -52,7 +52,7 @@ type Props = {
 
 const DoughnutChart = ({ chartData }: Props) => {
   return (
-    <div className=" w-full p-2 lg:w-1/2">
+    <div className=" h-1/2 w-full p-2 lg:h-full lg:w-1/2">
       <ChartContainer config={chartConfig} className="mx-auto aspect-square">
         <PieChart>
           <ChartTooltip
