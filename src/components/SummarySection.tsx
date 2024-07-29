@@ -16,9 +16,9 @@ type Props = {
 };
 
 const SummarySection = async ({ categories }: Props) => {
-  const expenses = await api.expense.get();
+  const expenses = await api.expense.getWeekExpenses();
 
-  const categoryData = await api.expense.getCategoryTotal();
+  const categoryData = await api.expense.getCategoryTotalWeek();
 
   const {
     _sum: { amount: weekTotal },

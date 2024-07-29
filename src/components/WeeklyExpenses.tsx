@@ -63,12 +63,12 @@ const WeeklyExpenses = ({ expenses }: Props) => {
                 {expense.category.name}
               </div>
             </TableCell>
-            <TableCell>{expense.description}</TableCell>
+            <TableCell className=" ">{expense.description}</TableCell>
             <TableCell className="text-right">
               {"\u20B9"}
               {expense.amount}
             </TableCell>
-            <TableCell className=" p-2">
+            <TableCell className=" w-fit px-0">
               <ExpenseDeleteButton expenseId={expense.id} />
             </TableCell>
           </TableRow>

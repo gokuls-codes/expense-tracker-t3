@@ -47,37 +47,159 @@ export const expenseRouter = createTRPCRouter({
     });
   }),
 
-  getCategoryTotal: protectedProcedure.query(({ ctx }) => {
+  getWeekExpenses: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(
+      tempDate.getTime() - tempDate.getDay() * 24 * 60 * 60 * 1000,
+    );
+    const endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    return ctx.db.expense.findMany({
+      orderBy: { createdAt: "desc" },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
+      include: { category: true },
+    });
+  }),
+
+  getMonthExpenses: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    tempDate.setDate(0);
+    const startDate = new Date(tempDate);
+    tempDate.setMonth(tempDate.getMonth() + 2);
+    tempDate.setDate(0);
+    const endDate = new Date(tempDate);
+
+    return ctx.db.expense.findMany({
+      orderBy: { createdAt: "desc" },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
+      include: { category: true },
+    });
+  }),
+
+  getYearExpenses: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    const startDate = new Date(tempDate.getFullYear(), 0, 1);
+    const endDate = new Date(tempDate.getFullYear() + 1, 0, 1);
+
+    return ctx.db.expense.findMany({
+      orderBy: { createdAt: "desc" },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
+      include: { category: true },
+    });
+  }),
+
+  getCategoryTotalWeek: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(
+      tempDate.getTime() - tempDate.getDay() * 24 * 60 * 60 * 1000,
+    );
+    const endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
     return ctx.db.expense.groupBy({
       by: ["categoryId"],
       _sum: {
         amount: true,
       },
-      where: { createdBy: { id: ctx.session.user.id } },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
+    });
+  }),
+
+  getCategoryTotalMonth: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    tempDate.setDate(0);
+    const startDate = new Date(tempDate);
+    tempDate.setMonth(tempDate.getMonth() + 2);
+    tempDate.setDate(0);
+    const endDate = new Date(tempDate);
+
+    return ctx.db.expense.groupBy({
+      by: ["categoryId"],
+      _sum: {
+        amount: true,
+      },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
+    });
+  }),
+
+  getCategoryTotalYear: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    const startDate = new Date(tempDate.getFullYear(), 0, 1);
+    const endDate = new Date(tempDate.getFullYear() + 1, 0, 1);
+
+    return ctx.db.expense.groupBy({
+      by: ["categoryId"],
+      _sum: {
+        amount: true,
+      },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
+      },
     });
   }),
 
   getWeekTotal: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    const startDate = new Date(
+      tempDate.getTime() - tempDate.getDay() * 24 * 60 * 60 * 1000,
+    );
+    const endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
     return ctx.db.expense.aggregate({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
       },
     });
   }),
   getMonthTotal: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    tempDate.setHours(0, 0, 0, 0);
+    tempDate.setDate(0);
+    const startDate = new Date(tempDate);
+    tempDate.setMonth(tempDate.getMonth() + 2);
+    tempDate.setDate(0);
+    const endDate = new Date(tempDate);
+
     return ctx.db.expense.aggregate({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
       },
     });
   }),
   getYearTotal: protectedProcedure.query(({ ctx }) => {
+    let tempDate = new Date();
+    const startDate = new Date(tempDate.getFullYear(), 0, 1);
+    const endDate = new Date(tempDate.getFullYear() + 1, 0, 1);
+
     return ctx.db.expense.aggregate({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
+        createdAt: { gt: startDate, lte: endDate },
       },
     });
   }),

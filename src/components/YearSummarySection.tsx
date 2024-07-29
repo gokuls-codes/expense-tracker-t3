@@ -16,9 +16,9 @@ type Props = {
 };
 
 const YearSummarySection = async ({ categories }: Props) => {
-  const expenses = await api.expense.get();
+  const expenses = await api.expense.getYearExpenses();
 
-  const categoryData = await api.expense.getCategoryTotal();
+  const categoryData = await api.expense.getCategoryTotalYear();
 
   const {
     _sum: { amount: yearTotal },

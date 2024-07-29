@@ -23,8 +23,14 @@ const ExpenseDeleteButton = ({ expenseId }: Props) => {
   };
 
   return (
-    <Button size={"icon"} variant={"destructive"} onClick={handleClick}>
-      <Trash className=" text-destructive-foreground" />
+    <Button
+      size={"sm"}
+      variant={"link"}
+      onClick={handleClick}
+      className=" text-destructive"
+    >
+      Delete
+      {/* <Trash className=" text-destructive-foreground" /> */}
     </Button>
   );
 };
