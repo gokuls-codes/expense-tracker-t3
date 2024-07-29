@@ -41,13 +41,14 @@ const WeeklyExpenses = ({ expenses }: Props) => {
           <TableHead className="">Category</TableHead>
           <TableHead className=" flex-1">Description</TableHead>
           <TableHead className=" text-right">Amount</TableHead>
+          <TableHead className=" w-28 ">Action</TableHead>
         </TableRow>
       </TableHeader>
 
       <TableBody>
         {expenses.length === 0 && (
           <TableRow suppressHydrationWarning>
-            <TableCell colSpan={3} className="h-24 text-center">
+            <TableCell colSpan={4} className="h-24 text-center">
               No records.
             </TableCell>
           </TableRow>
@@ -68,7 +69,7 @@ const WeeklyExpenses = ({ expenses }: Props) => {
               {"\u20B9"}
               {expense.amount}
             </TableCell>
-            <TableCell className=" w-fit px-0">
+            <TableCell className=" w-28 px-0">
               <ExpenseDeleteButton expenseId={expense.id} />
             </TableCell>
           </TableRow>

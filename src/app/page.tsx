@@ -8,6 +8,9 @@ import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MonthSummarySection from "@/components/MonthSummarySection";
 import YearSummarySection from "@/components/YearSummarySection";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ChartColumn, LoaderCircle } from "lucide-react";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -59,7 +62,29 @@ export default async function Home() {
           </TabsContent>
         </Tabs>
 
-        <div className=" py-4">
+        <Link href={"/reports"} className="  ">
+          <Button variant="link" className=" flex gap-2 text-2xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="lucide lucide-chart-no-axes-column"
+            >
+              <line x1="18" x2="18" y1="20" y2="10" />
+              <line x1="12" x2="12" y1="20" y2="4" />
+              <line x1="6" x2="6" y1="20" y2="14" />
+            </svg>
+            View complete reports
+          </Button>
+        </Link>
+
+        <div className=" mt-4 border-y border-border py-4">
           <p className=" text-center">Made by Gokul</p>
         </div>
       </div>

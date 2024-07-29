@@ -41,9 +41,9 @@ const SummarySection = async ({ categories }: Props) => {
           {weekTotal ?? 0}
         </h3>
       </div>
-      <div className=" flex h-[80vh] flex-col items-center gap-4 border-b border-border pb-4 lg:h-[40vh] lg:flex-row">
+      <div className=" flex h-[80vh] flex-col items-center gap-4 border-b border-border pb-2 lg:h-[40vh] lg:flex-row">
         <DoughnutChart chartData={chartData} />
-        <div className="  no-scrollbar h-full w-full overflow-y-scroll border-t border-border lg:w-1/2 lg:border-l">
+        <div className="  no-scrollbar h-full w-full overflow-y-scroll border-t border-border lg:w-3/5 lg:border-l">
           <WeeklyExpenses expenses={expenses} />
         </div>
       </div>
