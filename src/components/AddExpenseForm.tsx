@@ -164,9 +164,6 @@ const AddExpenseForm = ({ categories }: Props) => {
                   </PopoverContent>
                 </Popover>
               </div>
-              {/* <FormDescription>
-                This is the language that will be used in the dashboard.
-              </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}

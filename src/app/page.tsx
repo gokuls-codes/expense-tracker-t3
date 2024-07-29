@@ -10,7 +10,6 @@ import MonthSummarySection from "@/components/MonthSummarySection";
 import YearSummarySection from "@/components/YearSummarySection";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChartColumn, LoaderCircle } from "lucide-react";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -24,11 +23,6 @@ export default async function Home() {
   return (
     <main className="container ">
       <div className=" mx-auto my-4 max-w-screen-lg border-l border-r border-border">
-        {/* <div className="flex items-center space-x-2">
-          <Input type="color" className=" w-16 p-0" id="color-picker" />
-          <Label htmlFor="color-picker">Pick a color</Label>
-        </div> */}
-
         <div className=" flex flex-col gap-4 px-4 lg:flex-row">
           <section className="  flex-1 rounded-lg border  border-border px-4 py-4">
             <h2 className="  text-2xl font-light text-foreground/50">
@@ -91,22 +85,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// async function CrudShowcase() {
-//   const session = await getServerAuthSession();
-//   if (!session?.user) return null;
-
-//   const latestPost = await api.post.getLatest();
-
-//   return (
-//     <div className="w-full max-w-xs">
-//       {latestPost ? (
-//         <p className="truncate">Your most recent post: {latestPost.name}</p>
-//       ) : (
-//         <p>You have no posts yet.</p>
-//       )}
-
-//       <CreatePost />
-//     </div>
-//   );
-// }

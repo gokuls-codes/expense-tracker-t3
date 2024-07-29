@@ -30,7 +30,6 @@ const ExpenseDeleteButton = ({ expenseId }: Props) => {
       className=" text-destructive"
     >
       Delete
-      {/* <Trash className=" text-destructive-foreground" /> */}
     </Button>
   );
 };
