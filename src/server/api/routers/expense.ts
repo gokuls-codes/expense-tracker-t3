@@ -39,7 +39,6 @@ export const expenseRouter = createTRPCRouter({
     }),
 
   get: protectedProcedure.query(({ ctx }) => {
-    // console.log(ctx.session);
     return ctx.db.expense.findMany({
       orderBy: { createdAt: "desc" },
       where: { createdBy: { id: ctx.session.user.id } },
