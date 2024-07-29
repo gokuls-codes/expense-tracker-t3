@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -92,8 +93,19 @@ const AddCategoryForm = ({ categories }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className=" mt-4">
-          Create
+        <Button
+          type="submit"
+          className=" w-1/3 gap-2"
+          disabled={createCategory.isPending}
+        >
+          {createCategory.isPending ? (
+            <>
+              <LoaderCircle size={16} />
+              Creating...
+            </>
+          ) : (
+            "Create"
+          )}
         </Button>
       </form>
     </Form>

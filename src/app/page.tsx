@@ -5,6 +5,10 @@ import SummarySection from "@/components/SummarySection";
 import AddCategoryForm from "@/components/AddCategoryForm";
 import { redirect } from "next/navigation";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MonthSummarySection from "@/components/MonthSummarySection";
+import YearSummarySection from "@/components/YearSummarySection";
+
 export default async function Home() {
   const session = await getServerAuthSession();
 
@@ -38,22 +42,26 @@ export default async function Home() {
           </section>
         </div>
 
-        <SummarySection categories={categories} />
+        <Tabs defaultValue="month" className=" mt-8">
+          <TabsList className=" mx-auto grid w-1/2 grid-cols-3 ">
+            <TabsTrigger value="week">Week</TabsTrigger>
+            <TabsTrigger value="month">Month</TabsTrigger>
+            <TabsTrigger value="year">Year</TabsTrigger>
+          </TabsList>
+          <TabsContent value="week">
+            <SummarySection categories={categories} />
+          </TabsContent>
+          <TabsContent value="month">
+            <MonthSummarySection categories={categories} />
+          </TabsContent>
+          <TabsContent value="year">
+            <YearSummarySection categories={categories} />
+          </TabsContent>
+        </Tabs>
 
-        {/* <div className=" grid grid-cols-2 gap-2">
-          {keys.map((key) => (
-            <div
-              className=" h-20 rounded-sm"
-              key={key}
-              style={{
-                backgroundColor: colors[key],
-                color: colors[key + "Foreground"],
-              }}
-            >
-              {key}
-            </div>
-          ))}
-        </div> */}
+        <div className=" py-4">
+          <p className=" text-center">Made by Gokul</p>
+        </div>
       </div>
     </main>
   );

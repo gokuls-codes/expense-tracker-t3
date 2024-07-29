@@ -35,7 +35,7 @@ type Props = {
 
 const WeeklyExpenses = ({ expenses }: Props) => {
   return (
-    <Table>
+    <Table className="">
       <TableHeader>
         <TableRow>
           <TableHead className="">Category</TableHead>
@@ -43,7 +43,15 @@ const WeeklyExpenses = ({ expenses }: Props) => {
           <TableHead className=" text-right">Amount</TableHead>
         </TableRow>
       </TableHeader>
+
       <TableBody>
+        {expenses.length === 0 && (
+          <TableRow suppressHydrationWarning>
+            <TableCell colSpan={3} className="h-24 text-center">
+              No records.
+            </TableCell>
+          </TableRow>
+        )}
         {expenses.map((expense) => (
           <TableRow className=" " key={expense.id}>
             <TableCell className="  font-medium">

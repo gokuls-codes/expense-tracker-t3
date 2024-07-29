@@ -53,6 +53,32 @@ export const expenseRouter = createTRPCRouter({
       _sum: {
         amount: true,
       },
+      where: { createdBy: { id: ctx.session.user.id } },
+    });
+  }),
+
+  getWeekTotal: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.expense.aggregate({
+      _sum: { amount: true },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+      },
+    });
+  }),
+  getMonthTotal: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.expense.aggregate({
+      _sum: { amount: true },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+      },
+    });
+  }),
+  getYearTotal: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.expense.aggregate({
+      _sum: { amount: true },
+      where: {
+        createdBy: { id: ctx.session.user.id },
+      },
     });
   }),
 });

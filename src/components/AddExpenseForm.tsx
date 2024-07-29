@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, LoaderCircle } from "lucide-react";
 
 import {
   Command,
@@ -36,18 +36,6 @@ import {
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
-
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-];
 
 const formSchema = z.object({
   description: z.string().min(1),
@@ -209,8 +197,19 @@ const AddExpenseForm = ({ categories }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="">
-          Submit
+        <Button
+          type="submit"
+          className=" w-1/3 gap-2"
+          disabled={createExpense.isPending}
+        >
+          {createExpense.isPending ? (
+            <>
+              <LoaderCircle size={16} />
+              Submitting...
+            </>
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Form>

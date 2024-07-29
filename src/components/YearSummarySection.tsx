@@ -15,14 +15,14 @@ type Props = {
   categories: Category[];
 };
 
-const SummarySection = async ({ categories }: Props) => {
+const YearSummarySection = async ({ categories }: Props) => {
   const expenses = await api.expense.get();
 
   const categoryData = await api.expense.getCategoryTotal();
 
   const {
-    _sum: { amount: weekTotal },
-  } = await api.expense.getWeekTotal();
+    _sum: { amount: yearTotal },
+  } = await api.expense.getYearTotal();
 
   const chartData = categories.map((category) => ({
     ...category,
@@ -33,12 +33,12 @@ const SummarySection = async ({ categories }: Props) => {
   }));
 
   return (
-    <section className=" my-4">
+    <section className=" my-4 ">
       <div className="  flex flex-col justify-between rounded-md border-y border-border bg-muted/40 px-8 py-4 text-4xl font-light lg:flex-row lg:items-center ">
-        <h2 className=" text-foreground/50">This week</h2>
+        <h2 className=" text-foreground/50">This year</h2>
         <h3 className=" text-2xl text-foreground">
           {"\u20B9"}
-          {weekTotal ?? 0}
+          {yearTotal ?? 0}
         </h3>
       </div>
       <div className=" flex h-[80vh] flex-col items-center gap-4 border-b border-border pb-4 lg:h-[40vh] lg:flex-row">
@@ -51,4 +51,4 @@ const SummarySection = async ({ categories }: Props) => {
   );
 };
 
-export default SummarySection;
+export default YearSummarySection;
