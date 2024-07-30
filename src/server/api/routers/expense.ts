@@ -7,6 +7,7 @@ import {
 } from "@/server/api/trpc";
 
 import { format } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 export const expenseRouter = createTRPCRouter({
   create: protectedProcedure
@@ -60,7 +61,7 @@ export const expenseRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
       include: { category: true },
     });
@@ -79,7 +80,7 @@ export const expenseRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
       include: { category: true },
     });
@@ -94,7 +95,7 @@ export const expenseRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
       include: { category: true },
     });
@@ -115,7 +116,7 @@ export const expenseRouter = createTRPCRouter({
       },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -136,7 +137,7 @@ export const expenseRouter = createTRPCRouter({
       },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -153,7 +154,7 @@ export const expenseRouter = createTRPCRouter({
       },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -170,7 +171,7 @@ export const expenseRouter = createTRPCRouter({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -187,7 +188,7 @@ export const expenseRouter = createTRPCRouter({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -200,7 +201,7 @@ export const expenseRouter = createTRPCRouter({
       _sum: { amount: true },
       where: {
         createdBy: { id: ctx.session.user.id },
-        createdAt: { gt: startDate, lte: endDate },
+        createdAt: { gte: startDate, lt: endDate },
       },
     });
   }),
@@ -224,7 +225,7 @@ export const expenseRouter = createTRPCRouter({
           createdBy: { id: ctx.session.user.id },
           createdAt: {
             gt: input.start,
-            lte: new Date(input.end.getTime() + 24 * 60 * 60 * 1000),
+            lt: new Date(input.end.getTime() + 24 * 60 * 60 * 1000),
           },
         },
         include: {
@@ -254,14 +255,21 @@ export const expenseRouter = createTRPCRouter({
       let tempChartData = new Map<string, typeof tempCategoryMap>();
       for (
         const dt = new Date(input.start);
-        dt <= new Date(input.end.getTime() + 24 * 60 * 60 * 1000);
+        dt < new Date(input.end.getTime() + 24 * 60 * 60 * 1000);
         dt.setDate(dt.getDate() + 1)
       ) {
-        tempChartData.set(format(dt, keyFormat), new Map(tempCategoryMap));
+        tempChartData.set(
+          formatInTimeZone(dt, "Asia/Kolkata", keyFormat),
+          new Map(tempCategoryMap),
+        );
       }
 
       expenses.forEach((expense) => {
-        let key = format(expense.createdAt, keyFormat);
+        let key = formatInTimeZone(
+          expense.createdAt,
+          "Asia/Kolkata",
+          keyFormat,
+        );
         let curr = tempChartData.get(key);
         if (curr !== undefined) {
           curr.set(

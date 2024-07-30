@@ -38,7 +38,7 @@ const YearSummarySection = async ({ categories }: Props) => {
         <h2 className=" text-foreground/50">This year</h2>
         <h3 className=" text-2xl text-foreground">
           {"\u20B9"}
-          {yearTotal ?? 0}
+          {yearTotal?.toFixed(2) ?? 0}
         </h3>
       </div>
       <div className=" flex h-[80vh] flex-col items-center gap-4 border-b border-border pb-2 lg:h-[40vh] lg:flex-row">

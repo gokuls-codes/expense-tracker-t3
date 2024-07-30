@@ -83,7 +83,9 @@ const DoughnutChart = ({ chartData }: Props) => {
                         className="fill-foreground text-3xl font-bold"
                       >
                         {"\u20B9"}
-                        {chartData.reduce((acc, { total }) => acc + total, 0)}
+                        {chartData
+                          .reduce((acc, { total }) => acc + total, 0)
+                          .toFixed(2)}
                       </tspan>
                       <tspan
                         x={viewBox.cx}
