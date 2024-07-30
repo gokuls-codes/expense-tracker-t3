@@ -42,10 +42,19 @@ const FormSchema = z.object({
   frequency: z.string(),
 });
 
-export function ReportsForm() {
+type Props = {
+  inp: z.infer<typeof FormSchema>;
+};
+
+export function ReportsForm({ inp }: Props) {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      start: inp.start,
+      end: inp.end,
+      frequency: inp.frequency,
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {

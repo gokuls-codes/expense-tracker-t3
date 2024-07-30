@@ -10,14 +10,16 @@ const ReportsPage = async ({
 }) => {
   let chartData, chartConfig;
 
+  const inp = {
+    start: new Date(Number(searchParams.start))!,
+    end: new Date(Number(searchParams.end))!,
+    frequency: searchParams.frequency!,
+  };
+
   const categories = await api.category.get();
 
   if (searchParams.start && searchParams.end && searchParams.frequency) {
-    const res = await api.expense.getReport({
-      start: new Date(Number(searchParams.start)),
-      end: new Date(Number(searchParams.end)),
-      frequency: searchParams.frequency,
-    });
+    const res = await api.expense.getReport(inp);
 
     chartData = res.chartData;
     chartConfig = res.chartConfig;
@@ -27,7 +29,7 @@ const ReportsPage = async ({
     <main className="container ">
       <div className=" w-full border-l border-r border-border">
         <div className=" flex min-h-[80vh] flex-col gap-4 divide-y divide-solid divide-border p-4 lg:flex-row lg:divide-x lg:divide-y-0">
-          <ReportsForm />
+          <ReportsForm inp={inp} />
           <div className=" flex-1 space-y-4 px-4">
             <h2 className=" text-2xl">Report Chart</h2>
             {chartConfig && chartData && (

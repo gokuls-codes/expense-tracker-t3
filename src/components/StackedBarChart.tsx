@@ -67,6 +67,7 @@ export function StackedBarChart({ chartConfig, chartData, categories }: Props) {
             dataKey={category.id}
             stackId={"a"}
             fill={category.color}
+            barSize={20}
           />
         ))}
       </BarChart>

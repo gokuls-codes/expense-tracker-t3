@@ -214,6 +214,11 @@ export const expenseRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      let keyFormat = "";
+      if (input.frequency === "day") keyFormat = "dd/MM/yy";
+      else if (input.frequency === "month") keyFormat = "MM/yy";
+      else keyFormat = "yyyy";
+
       const expenses = await ctx.db.expense.findMany({
         where: {
           createdBy: { id: ctx.session.user.id },
@@ -252,11 +257,11 @@ export const expenseRouter = createTRPCRouter({
         dt <= new Date(input.end.getTime() + 24 * 60 * 60 * 1000);
         dt.setDate(dt.getDate() + 1)
       ) {
-        tempChartData.set(format(dt, "dd/MM/yy"), new Map(tempCategoryMap));
+        tempChartData.set(format(dt, keyFormat), new Map(tempCategoryMap));
       }
 
       expenses.forEach((expense) => {
-        let key = format(expense.createdAt, "dd/MM/yy");
+        let key = format(expense.createdAt, keyFormat);
         let curr = tempChartData.get(key);
         if (curr !== undefined) {
           curr.set(
