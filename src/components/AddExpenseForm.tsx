@@ -36,6 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   description: z.string().min(1),
@@ -67,8 +68,10 @@ const AddExpenseForm = ({ categories }: Props) => {
   });
 
   const createExpense = api.expense.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       form.reset();
+      toast(`Expense ${data.description} created.`);
+
       router.refresh();
     },
   });

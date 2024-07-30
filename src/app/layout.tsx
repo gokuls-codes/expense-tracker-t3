@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import TopBar from "@/components/TopBar";
 import NextAuthSessionProvider from "@/context/AuthContext";
 
+import { Toaster } from "@/components/ui/sonner";
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -35,6 +37,7 @@ export default function RootLayout({
             <NextAuthSessionProvider>
               <TopBar />
               {children}
+              <Toaster />
             </NextAuthSessionProvider>
           </TRPCReactProvider>
         </ThemeProvider>

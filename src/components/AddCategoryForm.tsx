@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -49,8 +50,9 @@ const AddCategoryForm = ({ categories }: Props) => {
   });
 
   const createCategory = api.category.create.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       form.reset();
+      toast(`Category ${data.name} created.`);
       router.refresh();
     },
   });

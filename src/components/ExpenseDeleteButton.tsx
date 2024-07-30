@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import { toast } from "sonner";
 
 type Props = {
   expenseId: string;
@@ -13,7 +14,8 @@ type Props = {
 const ExpenseDeleteButton = ({ expenseId }: Props) => {
   const router = useRouter();
   const deleteExpense = api.expense.delete.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      toast(`Expense ${data.description} deleted.`);
       router.refresh();
     },
   });
