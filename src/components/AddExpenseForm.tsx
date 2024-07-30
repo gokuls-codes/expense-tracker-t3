@@ -178,7 +178,7 @@ const AddExpenseForm = ({ categories }: Props) => {
             <FormItem className=" w-full  flex-1 grow-0">
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input placeholder="description" {...field} />
+                <Input placeholder="Description" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

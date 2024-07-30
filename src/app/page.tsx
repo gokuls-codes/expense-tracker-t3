@@ -56,8 +56,8 @@ export default async function Home() {
           </TabsContent>
         </Tabs>
 
-        <Link href={"/reports"} className="  ">
-          <Button variant="link" className=" flex gap-2 text-2xl">
+        <Button variant="link" className=" flex gap-2 text-2xl" asChild>
+          <Link href={"/reports"} className="  ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -75,8 +75,8 @@ export default async function Home() {
               <line x1="6" x2="6" y1="20" y2="14" />
             </svg>
             View complete reports
-          </Button>
-        </Link>
+          </Link>
+        </Button>
 
         <div className=" mt-4 border-y border-border py-4">
           <p className=" text-center">Made by Gokul</p>
