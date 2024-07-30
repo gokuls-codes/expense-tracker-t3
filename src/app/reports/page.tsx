@@ -8,7 +8,7 @@ const ReportsPage = async ({
 }: {
   searchParams: Record<string, string | undefined>;
 }) => {
-  let chartData, chartConfig, categories;
+  let chartData, chartConfig;
 
   const inp = {
     start: new Date(Number(searchParams.start)),
@@ -16,14 +16,13 @@ const ReportsPage = async ({
     frequency: searchParams.frequency!,
   };
 
-  //   const categories = await api.category.get();
+  const categories = await api.category.get();
 
   if (searchParams.start && searchParams.end && searchParams.frequency) {
     const res = await api.expense.getReport(inp);
 
     chartData = res.chartData;
     chartConfig = res.chartConfig;
-    categories = res.categories;
   }
 
   return (
@@ -37,7 +36,7 @@ const ReportsPage = async ({
               <StackedBarChart
                 chartConfig={chartConfig}
                 chartData={chartData}
-                categories={categories!}
+                categories={categories}
               />
             )}
           </div>
