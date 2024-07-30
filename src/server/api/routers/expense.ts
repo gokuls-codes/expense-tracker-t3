@@ -261,7 +261,7 @@ export const expenseRouter = createTRPCRouter({
         if (curr !== undefined) {
           curr.set(
             expense.category.id,
-            (curr.get(expense.category.id) as number) + expense.amount,
+            curr.get(expense.category.id)! + expense.amount,
           );
           tempChartData.set(key, curr);
         }
