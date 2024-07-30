@@ -28,6 +28,7 @@ const ExpenseDeleteButton = ({ expenseId }: Props) => {
       variant={"link"}
       onClick={handleClick}
       className=" text-destructive"
+      disabled={deleteExpense.isPending}
     >
       Delete
     </Button>
