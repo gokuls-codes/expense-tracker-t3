@@ -8,6 +8,7 @@ import TopBar from "@/components/TopBar";
 import NextAuthSessionProvider from "@/context/AuthContext";
 
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
               <TopBar />
               {children}
               <Toaster />
+              <Analytics />
             </NextAuthSessionProvider>
           </TRPCReactProvider>
         </ThemeProvider>
