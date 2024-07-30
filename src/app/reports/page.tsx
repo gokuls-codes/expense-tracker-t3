@@ -6,13 +6,13 @@ import React from "react";
 const ReportsPage = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Record<string, string | undefined>;
 }) => {
   let chartData, chartConfig;
 
   const inp = {
-    start: new Date(Number(searchParams.start))!,
-    end: new Date(Number(searchParams.end))!,
+    start: new Date(Number(searchParams.start)),
+    end: new Date(Number(searchParams.end)),
     frequency: searchParams.frequency!,
   };
 

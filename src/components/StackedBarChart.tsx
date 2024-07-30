@@ -30,9 +30,7 @@ import {
 //   },
 // } satisfies ChartConfig;
 
-interface ChartDataItem {
-  [key: string]: string | number;
-}
+type ChartDataItem = Record<string, string | number>;
 
 type Category = {
   id: string;
