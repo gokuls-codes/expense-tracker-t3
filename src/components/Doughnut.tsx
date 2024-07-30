@@ -65,7 +65,7 @@ const DoughnutChart = ({ chartData }: Props) => {
             nameKey="name"
             innerRadius={"50%"}
             strokeWidth={2}
-            stroke="#000"
+            stroke="hsl(var(--background))"
           >
             <Label
               content={({ viewBox }) => {
