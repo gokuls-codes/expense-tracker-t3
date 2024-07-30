@@ -10,52 +10,65 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+// const chartData = [
+//   { month: "January", desktop: 186, mobile: 80 },
+//   { month: "February", desktop: 305, mobile: 200 },
+//   { month: "March", desktop: 237, mobile: 120 },
+//   { month: "April", desktop: 73, mobile: 190 },
+//   { month: "May", desktop: 209, mobile: 130 },
+//   { month: "June", desktop: 214, mobile: 140 },
+// ];
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
+// const chartConfig = {
+//   desktop: {
+//     label: "Desktop",
+//     color: "hsl(var(--chart-1))",
+//   },
+//   mobile: {
+//     label: "Mobile",
+//     color: "hsl(var(--chart-2))",
+//   },
+// } satisfies ChartConfig;
 
-export function StackedBarChart() {
+interface ChartDataItem {
+  [key: string]: string | number;
+}
+
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: Date;
+  userId: string;
+};
+
+type Props = {
+  chartConfig: ChartConfig;
+  chartData: ChartDataItem[];
+  categories: Category[];
+};
+
+export function StackedBarChart({ chartConfig, chartData, categories }: Props) {
   return (
     <ChartContainer config={chartConfig}>
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="date"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
         <ChartTooltip content={<ChartTooltipContent hideLabel />} />
         <ChartLegend content={<ChartLegendContent />} />
-        <Bar
-          dataKey="desktop"
-          stackId="a"
-          fill="var(--color-desktop)"
-          radius={[0, 0, 4, 4]}
-        />
-        <Bar
-          dataKey="mobile"
-          stackId="a"
-          fill="var(--color-mobile)"
-          radius={[4, 4, 0, 0]}
-        />
+        {categories.map((category, index) => (
+          <Bar
+            key={category.id}
+            dataKey={category.id}
+            stackId={"a"}
+            fill={category.color}
+          />
+        ))}
       </BarChart>
     </ChartContainer>
   );

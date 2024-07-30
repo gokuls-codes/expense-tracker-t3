@@ -6,6 +6,8 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
+import { format } from "date-fns";
+
 export const expenseRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -202,4 +204,78 @@ export const expenseRouter = createTRPCRouter({
       },
     });
   }),
+
+  getReport: protectedProcedure
+    .input(
+      z.object({
+        start: z.date(),
+        end: z.date(),
+        frequency: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const expenses = await ctx.db.expense.findMany({
+        where: {
+          createdBy: { id: ctx.session.user.id },
+          createdAt: {
+            gt: input.start,
+            lte: new Date(input.end.getTime() + 24 * 60 * 60 * 1000),
+          },
+        },
+        include: {
+          category: true,
+        },
+      });
+
+      const categories = await ctx.db.category.findMany({
+        where: { createdBy: { id: ctx.session.user.id } },
+      });
+
+      const chartConfig = categories.reduce((acc, category) => {
+        return {
+          ...acc,
+          [category.id]: {
+            label: category.name,
+            color: category.color,
+          },
+        };
+      }, {});
+
+      const tempCategoryMap = new Map<string, number>();
+      categories.forEach((category) => {
+        tempCategoryMap.set(category.id, 0);
+      });
+
+      let tempChartData = new Map<string, typeof tempCategoryMap>();
+      for (
+        const dt = new Date(input.start);
+        dt <= new Date(input.end.getTime() + 24 * 60 * 60 * 1000);
+        dt.setDate(dt.getDate() + 1)
+      ) {
+        tempChartData.set(format(dt, "dd/MM/yy"), new Map(tempCategoryMap));
+      }
+
+      expenses.forEach((expense) => {
+        let key = format(expense.createdAt, "dd/MM/yy");
+        let curr = tempChartData.get(key);
+        if (curr !== undefined) {
+          curr.set(
+            expense.category.id,
+            (curr.get(expense.category.id) as number) + expense.amount,
+          );
+          tempChartData.set(key, curr);
+        }
+      });
+
+      const chartData = Array.from(tempChartData.entries()).map(
+        ([key, value]) => {
+          return {
+            date: key,
+            ...Object.fromEntries(value.entries()),
+          };
+        },
+      );
+
+      return { chartConfig, chartData };
+    }),
 });
