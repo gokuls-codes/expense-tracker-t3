@@ -9,7 +9,7 @@ const TopBar = () => {
     <header className="  sticky top-0 z-50 w-full  border-b border-border/50 bg-background/20 py-4 backdrop-blur">
       <div className=" container flex items-center justify-between">
         <Link className=" flex items-center gap-4" href={"/"}>
-          <Image src={"/payment.png"} alt="icon" height={40} width={40} />
+          <Image src={"/icon.png"} alt="icon" height={40} width={40} />
           <div className=" relative text-2xl ">
             <h2 className=" relative -left-1 top-1">Expense</h2>
             <h2 className=" relative -top-1 ">Tracker</h2>
