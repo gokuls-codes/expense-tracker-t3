@@ -70,10 +70,10 @@ export const expenseRouter = createTRPCRouter({
   getMonthExpenses: protectedProcedure.query(({ ctx }) => {
     let tempDate = new Date();
     tempDate.setHours(0, 0, 0, 0);
-    tempDate.setDate(0);
+    tempDate.setDate(1);
     const startDate = new Date(tempDate);
-    tempDate.setMonth(tempDate.getMonth() + 2);
-    tempDate.setDate(0);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    tempDate.setDate(1);
     const endDate = new Date(tempDate);
 
     return ctx.db.expense.findMany({
@@ -124,10 +124,10 @@ export const expenseRouter = createTRPCRouter({
   getCategoryTotalMonth: protectedProcedure.query(({ ctx }) => {
     let tempDate = new Date();
     tempDate.setHours(0, 0, 0, 0);
-    tempDate.setDate(0);
+    tempDate.setDate(1);
     const startDate = new Date(tempDate);
-    tempDate.setMonth(tempDate.getMonth() + 2);
-    tempDate.setDate(0);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    tempDate.setDate(1);
     const endDate = new Date(tempDate);
 
     return ctx.db.expense.groupBy({
@@ -178,10 +178,10 @@ export const expenseRouter = createTRPCRouter({
   getMonthTotal: protectedProcedure.query(({ ctx }) => {
     let tempDate = new Date();
     tempDate.setHours(0, 0, 0, 0);
-    tempDate.setDate(0);
+    tempDate.setDate(1);
     const startDate = new Date(tempDate);
-    tempDate.setMonth(tempDate.getMonth() + 2);
-    tempDate.setDate(0);
+    tempDate.setMonth(tempDate.getMonth() + 1);
+    tempDate.setDate(1);
     const endDate = new Date(tempDate);
 
     return ctx.db.expense.aggregate({

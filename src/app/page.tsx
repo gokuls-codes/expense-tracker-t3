@@ -40,7 +40,7 @@ export default async function Home() {
         </div>
 
         <Tabs defaultValue="month" className=" mt-8">
-          <TabsList className=" mx-auto grid w-1/2 grid-cols-3 ">
+          <TabsList className=" mx-auto grid w-full grid-cols-3 lg:w-1/2 ">
             <TabsTrigger value="week">Week</TabsTrigger>
             <TabsTrigger value="month">Month</TabsTrigger>
             <TabsTrigger value="year">Year</TabsTrigger>
@@ -65,9 +65,9 @@ export default async function Home() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className="lucide lucide-chart-no-axes-column"
             >
               <line x1="18" x2="18" y1="20" y2="10" />
