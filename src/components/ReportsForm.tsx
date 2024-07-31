@@ -70,7 +70,7 @@ export function ReportsForm({ inp }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <h2 className=" text-2xl">Report Params</h2>
+        <h2 className=" text-2xl">Configure chart</h2>
 
         <FormField
           control={form.control}

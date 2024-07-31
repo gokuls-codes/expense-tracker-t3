@@ -29,7 +29,11 @@ type Props = {
 
 export function StackedBarChart({ chartConfig, chartData, categories }: Props) {
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer
+      config={chartConfig}
+      style={{ width: chartData.length * 70 }}
+      className=" h-full"
+    >
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis

@@ -30,8 +30,7 @@ const ReportsPage = async ({
       <div className=" w-full border-l border-r border-border">
         <div className=" flex min-h-[80vh] flex-col gap-4 divide-y divide-solid divide-border p-4 lg:flex-row lg:divide-x lg:divide-y-0">
           <ReportsForm inp={inp} />
-          <div className=" flex-1 space-y-4 px-4">
-            <h2 className=" text-2xl">Report Chart</h2>
+          <div className="  no-scrollbar h-[60vh] flex-1 space-y-4 overflow-x-auto px-4">
             {chartConfig && chartData && (
               <StackedBarChart
                 chartConfig={chartConfig}
