@@ -11,8 +11,6 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Suspense } from "react";
-import LoadingHome from "@/components/LoadingHome";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,7 +39,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <NextAuthSessionProvider>
               <TopBar />
-              <Suspense fallback={<LoadingHome />}>{children}</Suspense>
+              {children}
               <Toaster />
               <Analytics />
               <SpeedInsights />
