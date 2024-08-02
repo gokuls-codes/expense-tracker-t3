@@ -20,6 +20,8 @@ export default async function Home() {
 
   const categories = await api.category.get();
 
+  console.log(categories.map((category) => category.id));
+
   return (
     <main className="container ">
       <div className=" mx-auto my-4 max-w-screen-lg border-l border-r border-border">

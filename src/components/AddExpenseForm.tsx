@@ -140,7 +140,7 @@ const AddExpenseForm = ({ categories }: Props) => {
                         <CommandGroup>
                           {categories.map((category) => (
                             <CommandItem
-                              value={category.id}
+                              value={category.name}
                               key={category.id}
                               onSelect={() => {
                                 form.setValue("category", category.id);
