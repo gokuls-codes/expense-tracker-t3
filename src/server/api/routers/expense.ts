@@ -289,6 +289,6 @@ export const expenseRouter = createTRPCRouter({
         },
       );
 
-      return { chartConfig, chartData };
+      return { chartConfig, chartData, expenses };
     }),
 });
