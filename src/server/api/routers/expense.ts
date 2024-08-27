@@ -284,7 +284,9 @@ export const expenseRouter = createTRPCRouter({
         ([key, value]) => {
           return {
             date: key,
-            ...Object.fromEntries(value.entries()),
+            ...Object.fromEntries(
+              new Map([...value].filter(([k, v]) => v > 0)).entries(),
+            ),
           };
         },
       );
