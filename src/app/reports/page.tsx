@@ -51,14 +51,14 @@ const ReportsPage = async ({
         </div>
         {expenses && (
           <div className=" flex h-[60vh] flex-col lg:flex-row">
-            <div className="flex h-full w-1/3 flex-col items-center justify-center gap-2">
+            <div className="flex h-full w-full flex-col items-center justify-center gap-2 border-b border-border lg:w-1/3 lg:border-b-0">
               <h3 className=" text-4xl">Total:</h3>
               <p className=" text-6xl">
                 {"\u20B9"}
                 {total?.toFixed(2) ?? 0}
               </p>
             </div>
-            <div className=" max-h-[80vh] w-2/3 overflow-y-auto">
+            <div className=" max-h-[80vh] overflow-y-auto lg:w-2/3">
               <WeeklyExpenses expenses={expenses} />
             </div>
           </div>
