@@ -30,6 +30,10 @@ const ReportsPage = async ({
     expenses = res.expenses;
   }
 
+  const total = expenses?.reduce((acc, curr) => acc + curr.amount, 0);
+
+  console.log(total);
+
   return (
     <main className="container ">
       <div className=" w-full border-l border-r border-border">
@@ -45,7 +49,23 @@ const ReportsPage = async ({
             )}
           </div>
         </div>
-        {/* {expenses && <WeeklyExpenses expenses={expenses} />} */}
+        {expenses && (
+          <div className=" flex h-[60vh] flex-col lg:flex-row">
+            <div className="flex h-full w-1/3 flex-col items-center justify-center gap-2">
+              <h3 className=" text-4xl">Total:</h3>
+              <p className=" text-6xl">
+                {"\u20B9"}
+                {total?.toFixed(2) ?? 0}
+              </p>
+            </div>
+            <div className=" max-h-[80vh] w-2/3 overflow-y-auto">
+              <WeeklyExpenses expenses={expenses} />
+            </div>
+          </div>
+        )}
+      </div>
+      <div className=" mt-4 border-y border-border py-4">
+        <p className=" text-center">Made by Gokul</p>
       </div>
     </main>
   );
