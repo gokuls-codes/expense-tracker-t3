@@ -31,8 +31,8 @@ export function StackedBarChart({ chartConfig, chartData, categories }: Props) {
   return (
     <ChartContainer
       config={chartConfig}
-      style={{ width: chartData.length * 70 }}
-      className=" h-full"
+      style={{ width: chartData.length >= 10 ? chartData.length * 70 : "" }}
+      className={` h-[80vh] w-full`}
     >
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />

@@ -32,9 +32,9 @@ const ReportsPage = async ({
   return (
     <main className="container ">
       <div className=" w-full border-l border-r border-border">
-        <div className=" flex min-h-[60vh] flex-col gap-4 divide-y divide-solid divide-border border-b p-4 lg:flex-row lg:divide-x lg:divide-y-0">
+        <div className=" flex min-h-[80vh]  flex-col gap-4 divide-y divide-solid divide-border border-b p-4 lg:flex-row lg:divide-x lg:divide-y-0">
           <ReportsForm inp={inp} />
-          <div className="  no-scrollbar h-[60vh] flex-1 space-y-4 overflow-x-auto px-4">
+          <div className="  no-scrollbar h-[80vh] flex-1 space-y-4 overflow-x-auto px-4">
             {chartConfig && chartData && (
               <StackedBarChart
                 chartConfig={chartConfig}
@@ -44,7 +44,7 @@ const ReportsPage = async ({
             )}
           </div>
         </div>
-        {expenses && <WeeklyExpenses expenses={expenses} />}
+        {/* {expenses && <WeeklyExpenses expenses={expenses} />} */}
       </div>
     </main>
   );

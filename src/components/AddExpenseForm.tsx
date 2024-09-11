@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -58,6 +58,7 @@ type Props = {
 
 const AddExpenseForm = ({ categories }: Props) => {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -84,26 +85,26 @@ const AddExpenseForm = ({ categories }: Props) => {
     });
   };
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="my-4 flex flex-1 flex-col items-start justify-around gap-4 "
-      >
-        <FormField
-          control={form.control}
-          name="category"
-          render={({ field }) => (
-            <FormItem className=" w-full flex-1 grow-0">
-              <div className=" flex flex-col justify-between  gap-3 pt-1">
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="my-4 flex flex-1 flex-col items-start justify-around gap-4 "
+        >
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className=" flex w-full flex-col">
                 <FormLabel>Category</FormLabel>
-                <Popover>
+                <Popover open={open} onOpenChange={(o) => setOpen(o)}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant="outline"
                         role="combobox"
                         className={cn(
-                          "  justify-between",
+                          " w-full justify-between",
                           !field.value && "text-muted-foreground",
                         )}
                       >
@@ -132,7 +133,7 @@ const AddExpenseForm = ({ categories }: Props) => {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                  <PopoverContent className="w-[300px] p-0">
                     <Command>
                       <CommandInput placeholder="Search category..." />
                       <CommandEmpty>No category found.</CommandEmpty>
@@ -144,6 +145,7 @@ const AddExpenseForm = ({ categories }: Props) => {
                               key={category.id}
                               onSelect={() => {
                                 form.setValue("category", category.id);
+                                setOpen(false);
                               }}
                             >
                               <Check
@@ -166,53 +168,53 @@ const AddExpenseForm = ({ categories }: Props) => {
                     </Command>
                   </PopoverContent>
                 </Popover>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem className=" w-full  flex-1 grow-0">
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="Description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="amount"
-          render={({ field }) => (
-            <FormItem className=" w-full flex-1 grow-0">
-              <FormLabel>Amount</FormLabel>
-              <FormControl>
-                <Input placeholder="0" {...field} type="number" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-          className=" w-1/3 gap-2"
-          disabled={createExpense.isPending}
-        >
-          {createExpense.isPending ? (
-            <>
-              <LoaderCircle size={16} />
-              Submitting...
-            </>
-          ) : (
-            "Submit"
-          )}
-        </Button>
-      </form>
-    </Form>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className=" w-full  flex-1 grow-0">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Description" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="amount"
+            render={({ field }) => (
+              <FormItem className=" w-full flex-1 grow-0">
+                <FormLabel>Amount</FormLabel>
+                <FormControl>
+                  <Input placeholder="0" {...field} type="number" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            className=" w-1/3 gap-2"
+            disabled={createExpense.isPending}
+          >
+            {createExpense.isPending ? (
+              <>
+                <LoaderCircle size={16} />
+                Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 };
 
