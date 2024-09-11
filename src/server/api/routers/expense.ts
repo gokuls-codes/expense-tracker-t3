@@ -212,6 +212,7 @@ export const expenseRouter = createTRPCRouter({
         start: z.date(),
         end: z.date(),
         frequency: z.string(),
+        categories: z.set(z.string()),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -220,9 +221,14 @@ export const expenseRouter = createTRPCRouter({
       else if (input.frequency === "month") keyFormat = "MM/yy";
       else keyFormat = "yyyy";
 
+      input.categories.delete("");
+
       const expenses = await ctx.db.expense.findMany({
         where: {
           createdBy: { id: ctx.session.user.id },
+          categoryId: input.categories.size
+            ? { in: Array.from(input.categories) }
+            : {},
           createdAt: {
             gt: input.start,
             lt: new Date(input.end.getTime() + 24 * 60 * 60 * 1000),

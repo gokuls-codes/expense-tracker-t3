@@ -15,14 +15,15 @@ const ReportsPage = async ({
     start: new Date(Number(searchParams.start)),
     end: new Date(Number(searchParams.end)),
     frequency: searchParams.frequency!,
+    categories: new Set(
+      searchParams.categories?.split(",").filter((item) => item != "") || [],
+    ),
   };
 
   const categories = await api.category.get();
 
   if (searchParams.start && searchParams.end && searchParams.frequency) {
     const res = await api.expense.getReport(inp);
-
-    console.log("res keys", Object.keys(res));
 
     chartData = res.chartData;
     chartConfig = res.chartConfig;
@@ -33,7 +34,7 @@ const ReportsPage = async ({
     <main className="container ">
       <div className=" w-full border-l border-r border-border">
         <div className=" flex min-h-[80vh]  flex-col gap-4 divide-y divide-solid divide-border border-b p-4 lg:flex-row lg:divide-x lg:divide-y-0">
-          <ReportsForm inp={inp} />
+          <ReportsForm inp={inp} categories={categories} />
           <div className="  no-scrollbar h-[80vh] flex-1 space-y-4 overflow-x-auto px-4">
             {chartConfig && chartData && (
               <StackedBarChart

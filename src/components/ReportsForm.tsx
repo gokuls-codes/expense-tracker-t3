@@ -9,6 +9,8 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+
 import {
   Form,
   FormControl,
@@ -32,6 +34,19 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { useState } from "react";
+import { Separator } from "./ui/separator";
+import { Badge } from "./ui/badge";
+
 const FormSchema = z.object({
   start: z.date({
     required_error: "Start date is required.",
@@ -40,13 +55,23 @@ const FormSchema = z.object({
     required_error: "End date is required.",
   }),
   frequency: z.string(),
+  categories: z.set(z.string()),
 });
+
+type Category = {
+  id: string;
+  name: string;
+  color: string;
+  createdAt: Date;
+  userId: string;
+};
 
 type Props = {
   inp: z.infer<typeof FormSchema>;
+  categories: Category[];
 };
 
-export function ReportsForm({ inp }: Props) {
+export function ReportsForm({ inp, categories }: Props) {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -54,6 +79,7 @@ export function ReportsForm({ inp }: Props) {
       start: inp.start,
       end: inp.end,
       frequency: inp.frequency,
+      categories: new Set(inp.categories),
     },
   });
 
@@ -62,6 +88,7 @@ export function ReportsForm({ inp }: Props) {
       start: String(data.start.getTime()),
       end: String(data.end.getTime()),
       frequency: data.frequency,
+      categories: Array.from(data.categories).join(","),
     });
 
     router.push("/reports?" + params.toString());
@@ -179,6 +206,127 @@ export function ReportsForm({ inp }: Props) {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="categories"
+          render={({ field }) => (
+            <FormItem className=" flex flex-col">
+              <FormLabel>Categories</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className=" w-[240px]  justify-start"
+                  >
+                    <PlusCircledIcon className="mr-2 h-4 w-4" />
+
+                    {field.value?.size > 0 && (
+                      <>
+                        <Separator
+                          orientation="vertical"
+                          className="mx-2 h-4"
+                        />
+                        <Badge
+                          variant="secondary"
+                          className="rounded-sm px-1 font-normal lg:hidden"
+                        >
+                          {field.value.size}
+                        </Badge>
+                        <div className="hidden space-x-1 lg:flex">
+                          {field.value.size > 2 ? (
+                            <Badge
+                              variant="secondary"
+                              className="rounded-sm px-1 font-normal"
+                            >
+                              {field.value.size} selected
+                            </Badge>
+                          ) : (
+                            categories
+                              .filter((option) => field.value.has(option.id))
+                              .map((option) => (
+                                <Badge
+                                  variant="secondary"
+                                  key={option.id}
+                                  className="rounded-sm px-1 font-normal"
+                                >
+                                  {option.name}
+                                </Badge>
+                              ))
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[240px] p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder={"Search categories..."} />
+                    <CommandList>
+                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandGroup>
+                        {categories.map((option) => {
+                          const isSelected = field.value.has(option.id);
+                          return (
+                            <CommandItem
+                              key={option.id}
+                              className=" space-x-1"
+                              onSelect={() => {
+                                if (isSelected) {
+                                  field.value.delete(option.id);
+                                  form.setValue("categories", field.value);
+                                } else {
+                                  form.setValue(
+                                    "categories",
+                                    field.value.add(option.id),
+                                  );
+                                }
+                              }}
+                            >
+                              <div
+                                className={cn(
+                                  "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                  isSelected
+                                    ? "bg-primary text-primary-foreground"
+                                    : "opacity-50 [&_svg]:invisible",
+                                )}
+                              >
+                                <CheckIcon className={cn("h-4 w-4")} />
+                              </div>
+                              <div
+                                className=" size-4 rounded-full"
+                                style={{
+                                  backgroundColor: option.color,
+                                }}
+                              ></div>
+                              <span>{option.name}</span>
+                            </CommandItem>
+                          );
+                        })}
+                      </CommandGroup>
+                      {field.value.size > 0 && (
+                        <>
+                          <CommandSeparator />
+                          <CommandGroup>
+                            <CommandItem
+                              onSelect={() =>
+                                form.setValue("categories", new Set())
+                              }
+                              className="justify-center text-center"
+                            >
+                              Clear filters
+                            </CommandItem>
+                          </CommandGroup>
+                        </>
+                      )}
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
+        />
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>
