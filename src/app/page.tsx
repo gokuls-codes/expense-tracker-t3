@@ -10,6 +10,8 @@ import MonthSummarySection from "@/components/MonthSummarySection";
 import YearSummarySection from "@/components/YearSummarySection";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import AddPaymentModeDialog from "@/components/AddPaymentModeDialog";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -19,6 +21,9 @@ export default async function Home() {
   }
 
   const categories = await api.category.get();
+  const paymentModes = await api.paymentMode.get();
+
+  console.log(paymentModes);
 
   return (
     <main className="container ">
@@ -28,7 +33,10 @@ export default async function Home() {
             <h2 className="  text-2xl font-light text-foreground/50">
               Add Expense
             </h2>
-            <AddExpenseForm categories={categories} />
+            <AddExpenseForm
+              categories={categories}
+              paymentModes={paymentModes}
+            />
           </section>
 
           <section className="  flex-1 rounded-lg border  border-border px-4 py-4">
@@ -39,7 +47,16 @@ export default async function Home() {
           </section>
         </div>
 
-        <Tabs defaultValue="month" className=" mt-8">
+        <div className=" grid w-full items-end p-8 ">
+          <AddPaymentModeDialog>
+            <Button variant={"outline"} className=" ml-auto">
+              <Plus />
+              <span>Add Payment Mode</span>
+            </Button>
+          </AddPaymentModeDialog>
+        </div>
+
+        <Tabs defaultValue="month" className=" ">
           <TabsList className=" mx-auto grid w-full grid-cols-3 lg:w-1/2 ">
             <TabsTrigger value="week">Week</TabsTrigger>
             <TabsTrigger value="month">Month</TabsTrigger>

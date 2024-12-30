@@ -42,6 +42,7 @@ const formSchema = z.object({
   description: z.string().min(1),
   amount: z.coerce.number().min(1),
   category: z.string(),
+  paymentMode: z.string().optional(),
 });
 
 type Category = {
@@ -52,13 +53,20 @@ type Category = {
   userId: string;
 };
 
-type Props = {
-  categories: Category[];
+type PaymentMode = {
+  id: string;
+  name: string;
 };
 
-const AddExpenseForm = ({ categories }: Props) => {
+type Props = {
+  categories: Category[];
+  paymentModes: PaymentMode[];
+};
+
+const AddExpenseForm = ({ categories, paymentModes }: Props) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [paymentModeOpen, setPaymentModeOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -82,6 +90,7 @@ const AddExpenseForm = ({ categories }: Props) => {
       description: values.description,
       amount: values.amount,
       categoryId: values.category,
+      paymentModeId: values.paymentMode,
     });
   };
   return (
@@ -198,9 +207,89 @@ const AddExpenseForm = ({ categories }: Props) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="paymentMode"
+            render={({ field }) => (
+              <FormItem className=" flex w-full flex-col">
+                <FormLabel>Payment Mode (Optional)</FormLabel>
+                <Popover
+                  open={paymentModeOpen}
+                  onOpenChange={(o) => setPaymentModeOpen(o)}
+                >
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          " w-full justify-between",
+                          !field.value && "text-muted-foreground",
+                        )}
+                      >
+                        {field.value ? (
+                          <div className=" flex items-center gap-2">
+                            <div
+                              className="  size-4 rounded-full "
+                              style={{
+                                backgroundColor: categories.find(
+                                  (category) => category.id === field.value,
+                                )?.color,
+                              }}
+                            ></div>
+                            <p>
+                              {
+                                categories.find(
+                                  (category) => category.id === field.value,
+                                )?.name
+                              }
+                            </p>
+                          </div>
+                        ) : (
+                          "Select payment mode"
+                        )}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[300px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search payment mode..." />
+                      <CommandEmpty>No category found.</CommandEmpty>
+                      <CommandList>
+                        <CommandGroup>
+                          {paymentModes.map((paymentMode) => (
+                            <CommandItem
+                              value={paymentMode.name}
+                              key={paymentMode.id}
+                              onSelect={() => {
+                                form.setValue("paymentMode", paymentMode.id);
+                                setPaymentModeOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  paymentMode.id === field.value
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {paymentMode.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             type="submit"
-            className=" w-1/3 gap-2"
+            className=" mt-4 w-1/3 gap-2"
             disabled={createExpense.isPending}
           >
             {createExpense.isPending ? (

@@ -16,6 +16,7 @@ export const expenseRouter = createTRPCRouter({
         categoryId: z.string(),
         amount: z.number(),
         description: z.string(),
+        paymentModeId: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -24,6 +25,11 @@ export const expenseRouter = createTRPCRouter({
           category: {
             connect: {
               id: input.categoryId,
+            },
+          },
+          PaymentMode: {
+            connect: {
+              id: input.paymentModeId,
             },
           },
           amount: input.amount,

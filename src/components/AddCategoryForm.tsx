@@ -63,6 +63,7 @@ const AddCategoryForm = ({ categories }: Props) => {
       color: values.color,
     });
   };
+
   return (
     <Form {...form}>
       <form
