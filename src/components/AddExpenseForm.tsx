@@ -229,18 +229,11 @@ const AddExpenseForm = ({ categories, paymentModes }: Props) => {
                       >
                         {field.value ? (
                           <div className=" flex items-center gap-2">
-                            <div
-                              className="  size-4 rounded-full "
-                              style={{
-                                backgroundColor: categories.find(
-                                  (category) => category.id === field.value,
-                                )?.color,
-                              }}
-                            ></div>
                             <p>
                               {
-                                categories.find(
-                                  (category) => category.id === field.value,
+                                paymentModes.find(
+                                  (paymentMode) =>
+                                    paymentMode.id === field.value,
                                 )?.name
                               }
                             </p>
