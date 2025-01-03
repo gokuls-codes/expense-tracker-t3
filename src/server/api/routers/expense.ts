@@ -27,11 +27,13 @@ export const expenseRouter = createTRPCRouter({
               id: input.categoryId,
             },
           },
-          PaymentMode: {
-            connect: {
-              id: input.paymentModeId,
-            },
-          },
+          paymentMode: input.paymentModeId
+            ? {
+                connect: {
+                  id: input.paymentModeId,
+                },
+              }
+            : {},
           amount: input.amount,
           description: input.description,
           createdBy: { connect: { id: ctx.session.user.id } },
