@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const requestBody = await request.json();
+  const requestBody: unknown = await request.json();
   console.log(requestBody);
   return NextResponse.json({ message: "Hello from POST /api/orders" });
 }
