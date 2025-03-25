@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const requestBody: object = await request.json();
+  const requestBody: Record<string, string | number> = await request.json();
   // console.log(typeof requestBody);
   await db.testStock.create({
     data: {
