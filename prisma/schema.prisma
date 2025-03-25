@@ -110,3 +110,9 @@ model PaymentMode {
 
     Expense Expense[]
 }
+
+model TestStock {
+    id        Int      @id @default(autoincrement())
+    payload   Json
+    createdAt DateTime @default(now())
+}
