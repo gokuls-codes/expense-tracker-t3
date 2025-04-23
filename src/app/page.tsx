@@ -23,8 +23,6 @@ export default async function Home() {
   const categories = await api.category.get();
   const paymentModes = await api.paymentMode.get();
 
-  console.log(paymentModes);
-
   return (
     <main className="container ">
       <div className=" mx-auto my-4 max-w-screen-lg border-l border-r border-border">

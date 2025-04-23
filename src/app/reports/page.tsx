@@ -32,8 +32,6 @@ const ReportsPage = async ({
 
   const total = expenses?.reduce((acc, curr) => acc + curr.amount, 0);
 
-  console.log(total);
-
   return (
     <main className="container ">
       <div className=" w-full border-l border-r border-border">
