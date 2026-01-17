@@ -6,7 +6,7 @@ import LogOutButton from "./LogOutButton";
 
 const TopBar = () => {
   return (
-    <header className="  sticky top-0 z-50 w-full  border-b border-border/50 bg-background/20 py-4 backdrop-blur">
+    <header className="  sticky top-0 z-50 w-full  border-b border-border bg-background/20 py-4 backdrop-blur">
       <div className=" container flex items-center justify-between">
         <Link className=" flex items-center gap-4" href={"/"}>
           <Image src={"/icon.png"} alt="icon" height={40} width={40} />
