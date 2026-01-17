@@ -38,7 +38,6 @@ export default function RootLayout({
         >
           <TRPCReactProvider>
             <NextAuthSessionProvider>
-              <TopBar />
               {children}
               <Toaster />
               <Analytics />
