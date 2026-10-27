@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      issuer: "https://discord.com",
     }),
     /**
      * ...add more providers here.
